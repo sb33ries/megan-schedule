@@ -1028,19 +1028,34 @@
       for (const label in groupedTasks) {
         const group = groupedTasks[label];
         const angle = (group.duration / totalTime) * 2 * Math.PI;
-        
+
+        // Draw pie slice
         ctx.beginPath();
         ctx.moveTo(100, 100);
         ctx.arc(100, 100, 90, start, start + angle);
         ctx.fillStyle = group.color;
         ctx.fill();
-        
+
+        // Draw white outline
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 3;
         ctx.stroke();
-        
+
+        // Draw percentage text
+        const midAngle = start + angle / 2;
+        const percent = ((group.duration / totalTime) * 100).toFixed(1) + '%';
+        const x = 100 + Math.cos(midAngle) * 60;
+        const y = 100 + Math.sin(midAngle) * 60;
+
+        ctx.fillStyle = 'white';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(percent, x, y);
+
         start += angle;
       }
+
     }
 
     function updateWeeklyStats() {
